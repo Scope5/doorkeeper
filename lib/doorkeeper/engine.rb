@@ -17,16 +17,20 @@ module Doorkeeper
       end
     end
 
-    if defined?(Sprockets) && Sprockets::VERSION.chr.to_i >= 4
-      initializer 'doorkeeper.assets.precompile' do |app|
-        # Force users to use:
-        #    //= link doorkeeper/admin/application.css
-        # in Doorkeeper 5 for Sprockets 4 instead of precompile.
-        # Add note to official docs & Wiki
-        app.config.assets.precompile += %w[
-          doorkeeper/application.css
-          doorkeeper/admin/application.css
-        ]
+    # remove the if false loop once we upgrade to rails 5. this was done here just 
+    # because application.css won't compile on heroku with rails 4
+    if false
+      if defined?(Sprockets) && Sprockets::VERSION.chr.to_i >= 4
+        initializer "doorkeeper.assets.precompile" do |app|
+          # Force users to use:
+          #    //= link doorkeeper/admin/application.css
+          # in Doorkeeper 5 for Sprockets 4 instead of precompile.
+          # Add note to official docs & Wiki
+          app.config.assets.precompile += %w[
+            doorkeeper/application.css
+            doorkeeper/admin/application.css
+          ]
+        end
       end
     end
   end
